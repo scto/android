@@ -1,6 +1,7 @@
 package com.x8bit.bitwarden.data.vault.manager
 
 import android.os.SystemClock
+import android.util.Log
 import com.bitwarden.core.InitOrgCryptoRequest
 import com.bitwarden.core.InitUserCryptoMethod
 import com.bitwarden.core.InitUserCryptoRequest
@@ -88,6 +89,15 @@ class VaultLockManagerImpl(
         get() = mutableVaultStateEventSharedFlow.asSharedFlow()
 
     init {
+        vaultUnlockDataStateFlow
+            .onEach { vaultUnlockData ->
+                Log.d(
+                    "VaultLockManager",
+                    @Suppress("MaximumLineLength", "MaxLineLength")
+                    "Vault lock state change: ${vaultUnlockData.find { it.userId == activeUserId }?.status}",
+                )
+            }
+            .launchIn(unconfinedScope)
         observeAppForegroundChanges()
         observeUserSwitchingChanges()
         observeVaultTimeoutChanges()
