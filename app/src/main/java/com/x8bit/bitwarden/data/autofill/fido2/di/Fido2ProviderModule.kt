@@ -12,6 +12,8 @@ import com.x8bit.bitwarden.data.autofill.fido2.processor.Fido2ProviderProcessor
 import com.x8bit.bitwarden.data.autofill.fido2.processor.Fido2ProviderProcessorImpl
 import com.x8bit.bitwarden.data.platform.manager.AssetManager
 import com.x8bit.bitwarden.data.platform.manager.dispatcher.DispatcherManager
+import com.x8bit.bitwarden.data.platform.repository.EnvironmentRepository
+import com.x8bit.bitwarden.data.platform.repository.SettingsRepository
 import com.x8bit.bitwarden.data.vault.datasource.sdk.VaultSdkSource
 import com.x8bit.bitwarden.data.vault.repository.VaultRepository
 import com.x8bit.bitwarden.ui.platform.manager.intent.IntentManager
@@ -58,17 +60,29 @@ object Fido2ProviderModule {
     @Provides
     @Singleton
     fun provideFido2CredentialManager(
+        @ApplicationContext context: Context,
         assetManager: AssetManager,
+        intentManager: IntentManager,
         digitalAssetLinkService: DigitalAssetLinkService,
         vaultSdkSource: VaultSdkSource,
+        vaultRepository: VaultRepository,
+        settingsRepository: SettingsRepository,
+        environmentRepository: EnvironmentRepository,
         fido2CredentialStore: Fido2CredentialStore,
         json: Json,
+        dispatcherManager: DispatcherManager,
     ): Fido2CredentialManager =
         Fido2CredentialManagerImpl(
+            context = context,
             assetManager = assetManager,
+            intentManager = intentManager,
             digitalAssetLinkService = digitalAssetLinkService,
             vaultSdkSource = vaultSdkSource,
+            vaultRepository = vaultRepository,
+            settingsRepository = settingsRepository,
+            environmentRepository = environmentRepository,
             fido2CredentialStore = fido2CredentialStore,
             json = json,
+            dispatcherManager = dispatcherManager,
         )
 }

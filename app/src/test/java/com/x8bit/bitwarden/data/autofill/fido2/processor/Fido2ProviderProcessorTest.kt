@@ -76,9 +76,7 @@ class Fido2ProviderProcessorTest {
         every { ciphersStateFlow } returns mutableCiphersStateFlow
     }
     private val passkeyAssertionOptions = createMockPasskeyAssertionOptions(number = 1)
-    private val fido2CredentialManager: Fido2CredentialManager = mockk {
-        every { getPasskeyAssertionOptionsOrNull(any()) } returns passkeyAssertionOptions
-    }
+    private val fido2CredentialManager: Fido2CredentialManager = mockk()
     private val fido2CredentialStore: Fido2CredentialStore = mockk()
     private val intentManager: IntentManager = mockk()
     private val dispatcherManager: DispatcherManager = FakeDispatcherManager()
@@ -366,9 +364,6 @@ class Fido2ProviderProcessorTest {
         val request: BeginGetCredentialRequest = mockk {
             every { beginGetCredentialOptions } returns listOf(mockOption)
         }
-        every {
-            fido2CredentialManager.getPasskeyAssertionOptionsOrNull(any())
-        } returns null
         val callback: OutcomeReceiver<BeginGetCredentialResponse, GetCredentialException> = mockk()
         val captureSlot = slot<GetCredentialException>()
         mutableUserStateFlow.value = DEFAULT_USER_STATE

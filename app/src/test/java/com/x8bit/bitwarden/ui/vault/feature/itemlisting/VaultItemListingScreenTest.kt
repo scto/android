@@ -1882,7 +1882,7 @@ class VaultItemListingScreenTest : BaseComposeTest() {
         val result = Fido2GetCredentialsResult.Success(
             userId = "mockUserId",
             options = mockk(),
-            credentials = mockk(),
+            credentialEntries = mockk(),
         )
         mutableEventFlow.tryEmit(VaultItemListingEvent.CompleteFido2GetCredentialsRequest(result))
         verify {

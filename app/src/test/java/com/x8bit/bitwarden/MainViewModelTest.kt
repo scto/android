@@ -19,7 +19,6 @@ import com.x8bit.bitwarden.data.autofill.fido2.manager.Fido2CredentialManager
 import com.x8bit.bitwarden.data.autofill.fido2.model.Fido2CredentialAssertionRequest
 import com.x8bit.bitwarden.data.autofill.fido2.model.Fido2CredentialRequest
 import com.x8bit.bitwarden.data.autofill.fido2.model.Fido2GetCredentialsRequest
-import com.x8bit.bitwarden.data.autofill.fido2.model.Fido2ValidateOriginResult
 import com.x8bit.bitwarden.data.autofill.fido2.model.createMockFido2CredentialAssertionRequest
 import com.x8bit.bitwarden.data.autofill.fido2.model.createMockFido2CredentialRequest
 import com.x8bit.bitwarden.data.autofill.fido2.model.createMockFido2GetCredentialsRequest
@@ -611,12 +610,7 @@ class MainViewModelTest : BaseViewModelTest() {
         )
         val fido2Intent = createMockIntent(mockFido2CredentialRequest = fido2CredentialRequest)
 
-        coEvery {
-            fido2CredentialManager.validateOrigin(
-                fido2CredentialRequest.callingAppInfo,
-                fido2CredentialRequest.requestJson,
-            )
-        } returns Fido2ValidateOriginResult.Success
+        every { intentManager.getShareDataFromIntent(fido2Intent) } returns null
 
         viewModel.trySendAction(
             MainAction.ReceiveFirstIntent(
@@ -663,12 +657,6 @@ class MainViewModelTest : BaseViewModelTest() {
             origin = "mockOrigin",
         )
         val mockIntent = createMockIntent(mockFido2CredentialRequest = fido2CredentialRequest)
-        coEvery {
-            fido2CredentialManager.validateOrigin(
-                fido2CredentialRequest.callingAppInfo,
-                fido2CredentialRequest.requestJson,
-            )
-        } returns Fido2ValidateOriginResult.Success
 
         viewModel.trySendAction(
             MainAction.ReceiveFirstIntent(
@@ -691,12 +679,6 @@ class MainViewModelTest : BaseViewModelTest() {
             origin = "mockOrigin",
         )
         val mockIntent = createMockIntent(mockFido2CredentialRequest = fido2CredentialRequest)
-        coEvery {
-            fido2CredentialManager.validateOrigin(
-                fido2CredentialRequest.callingAppInfo,
-                fido2CredentialRequest.requestJson,
-            )
-        } returns Fido2ValidateOriginResult.Success
 
         viewModel.trySendAction(
             MainAction.ReceiveFirstIntent(
