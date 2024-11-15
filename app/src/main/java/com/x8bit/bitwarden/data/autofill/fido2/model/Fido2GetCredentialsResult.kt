@@ -27,4 +27,9 @@ sealed class Fido2GetCredentialsResult {
      * Indicates an error was encountered when querying for matching credentials.
      */
     data object Error : Fido2GetCredentialsResult()
+
+    /**
+     * Indicates the user has cancelled credential discovery.
+     */
+    data object Cancelled : Fido2GetCredentialsResult()
 }

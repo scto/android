@@ -49,8 +49,6 @@ object Fido2ProviderModule {
         Fido2ProviderProcessorImpl(
             context,
             authRepository,
-            vaultRepository,
-            fido2CredentialStore,
             fido2CredentialManager,
             intentManager,
             clock,

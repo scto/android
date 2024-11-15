@@ -9,6 +9,7 @@ import androidx.credentials.GetCredentialResponse
 import androidx.credentials.PublicKeyCredential
 import androidx.credentials.exceptions.CreateCredentialCancellationException
 import androidx.credentials.exceptions.CreateCredentialUnknownException
+import androidx.credentials.exceptions.GetCredentialCancellationException
 import androidx.credentials.exceptions.GetCredentialUnknownException
 import androidx.credentials.provider.BeginGetCredentialResponse
 import androidx.credentials.provider.PendingIntentHandler
@@ -101,11 +102,17 @@ class Fido2CompletionManagerImpl(
                     )
             }
 
-            Fido2GetCredentialsResult.Error,
-                -> {
+            Fido2GetCredentialsResult.Error -> {
                 PendingIntentHandler.setGetCredentialException(
                     resultIntent,
                     GetCredentialUnknownException(),
+                )
+            }
+
+            Fido2GetCredentialsResult.Cancelled -> {
+                PendingIntentHandler.setGetCredentialException(
+                    resultIntent,
+                    GetCredentialCancellationException(),
                 )
             }
         }

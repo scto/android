@@ -1238,7 +1238,9 @@ class VaultItemListingViewModel @Inject constructor(
 
     private fun vaultLoadedReceive(vaultData: DataState.Loaded<VaultData>) {
         updateStateWithVaultData(vaultData = vaultData.data, clearDialogState = true)
-        state.fido2GetCredentialsRequest
+        state
+            // TODO: Move FIDO 2 get credentials to vault unlock screen
+            .fido2GetCredentialsRequest
             ?.let { fido2GetCredentialsRequest ->
                 viewModelScope.launch {
                     sendEvent(
@@ -1250,8 +1252,9 @@ class VaultItemListingViewModel @Inject constructor(
                     )
                 }
             }
-            // TODO: Move FIDO 2 authentication to vault unlock screen
-            ?: state.fido2CredentialAssertionRequest
+            ?: state
+                // TODO: Move FIDO 2 authentication to vault unlock screen
+                .fido2CredentialAssertionRequest
                 ?.let { fido2AssertionRequest ->
                     trySendAction(
                         VaultItemListingsAction.Internal.Fido2AssertionDataReceive(

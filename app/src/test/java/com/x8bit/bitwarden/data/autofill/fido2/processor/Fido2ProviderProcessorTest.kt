@@ -90,8 +90,6 @@ class Fido2ProviderProcessorTest {
         fido2Processor = Fido2ProviderProcessorImpl(
             context,
             authRepository,
-            vaultRepository,
-            fido2CredentialStore,
             fido2CredentialManager,
             intentManager,
             clock,
