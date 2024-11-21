@@ -31,6 +31,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
+import timber.log.Timber
 import javax.inject.Inject
 
 private const val KEY_SSO_DATA = "ssoData"
@@ -166,7 +167,7 @@ class EnterpriseSignOnViewModel @Inject constructor(
                                 ?: R.string.login_sso_error.asText(),
                         ),
                     )
-                }
+                }.also { Timber.i("LoginResult error without a message from server") }
             }
 
             is LoginResult.UnofficialServerError -> {
@@ -206,6 +207,9 @@ class EnterpriseSignOnViewModel @Inject constructor(
 
     private fun handleOnSsoPrevalidationFailure() {
         showDefaultError()
+            .also {
+                Timber.i("Pre-validation failed for SSO")
+            }
     }
 
     private fun handleOnOrganizationDomainSsoDetailsFailure() {
@@ -399,7 +403,9 @@ class EnterpriseSignOnViewModel @Inject constructor(
 
         when (ssoCallbackResult) {
             is SsoCallbackResult.MissingCode -> {
-                showDefaultError()
+                showDefaultError().also {
+                    Timber.i("Missing code on SSO callback")
+                }
             }
 
             is SsoCallbackResult.Success -> {
@@ -419,6 +425,9 @@ class EnterpriseSignOnViewModel @Inject constructor(
                     }
                 } else {
                     showDefaultError()
+                        .also {
+                            Timber.i("State mismatch on SSO callback ${ssoData.state} != ${ssoCallbackResult.state}")
+                        }
                 }
             }
         }
