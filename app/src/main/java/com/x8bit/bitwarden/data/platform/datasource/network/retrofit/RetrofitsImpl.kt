@@ -87,6 +87,7 @@ class RetrofitsImpl(
     private val baseOkHttpClient: OkHttpClient =
         OkHttpClient.Builder()
             .connectionSpecs(listOf(ConnectionSpec.MODERN_TLS, ConnectionSpec.COMPATIBLE_TLS))
+            .retryOnConnectionFailure(true)
             .addInterceptor(headersInterceptor)
             .build()
 
