@@ -8,6 +8,7 @@ import com.x8bit.bitwarden.data.platform.datasource.network.interceptor.BaseUrlI
 import com.x8bit.bitwarden.data.platform.datasource.network.interceptor.HeadersInterceptor
 import com.x8bit.bitwarden.data.platform.datasource.network.util.HEADER_KEY_AUTHORIZATION
 import kotlinx.serialization.json.Json
+import okhttp3.ConnectionSpec
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -85,6 +86,7 @@ class RetrofitsImpl(
 
     private val baseOkHttpClient: OkHttpClient =
         OkHttpClient.Builder()
+            .connectionSpecs(listOf(ConnectionSpec.MODERN_TLS, ConnectionSpec.COMPATIBLE_TLS))
             .addInterceptor(headersInterceptor)
             .build()
 
